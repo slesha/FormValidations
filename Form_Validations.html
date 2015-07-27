@@ -1,0 +1,312 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>JS Events - Form Validations</title>
+	<style>
+	#parent-container {border:5px solid black; padding: 5px; width: 600px; position: absolute; left: 350px;}
+	.left {float:left;} 
+	.right {float: right;}
+	/* option 4: clearfix- fixes the zero height issue by adding clear both in header*/
+	.cf:after {content: ""; display: block; clear: both;} 
+	#menu li {display: inline}
+	#menu li a {background-color: darkblue; color: white; padding: 10px 20px; text-decoration: none;}
+	#menu a:hover {background-color: orange;}
+	#submit {text-align: center}
+	#msg { border: 1px solid white; background-color: red; text-decoration: bold;} 
+	#dmsg, #cmsg, #nmsg, #pmsg, #emsg, #gmsg {color: red;}
+	</style>
+</head>
+<body>
+	<div id="parent-container" class="container">
+		<div class="header cf">
+				<a class="left" id="logo" href="/index.php" title="Support Center">
+					<img src="logo.php" alt="Support Mythriconsulting" >
+				</a>
+				<div class="right">
+				<p>Guest User|<a href="login.php" class="right">login </a></p>
+				</div>
+			</div> 
+			<hr/>
+
+			<div id="main-navigation">
+				<ul id="menu" class="navigation" type="none">
+					<li><a href="http://support.mythriconsulting.com/index.php">Support Center Home</a></li>
+					<li><a href="http://support.mythriconsulting.com/open.php">Submit a ticket</a></li>
+					<li><a href="http://support.mythriconsulting.com/view.php">Check ticket status</a></li>
+				</ul>	
+			</div>
+			<hr/>
+		<div class="content">
+			<form method="post" name="formSubmit">
+				<span id="msg"></span>
+				<h3>Open a ticket </h3>
+				<p>Please fill the form to submit a ticket</p>
+				<span><b>Select a department *</b></span>
+				<select name="SelectDepatment" id="dept" placeholder="select a department" required>
+					<option selected="" value="Default">(Please select a depatment)</option> 	
+					<option value="Technical training">Technical training</option>
+					<option value="Human Resources">Human Resources</option>
+					<option value="Marketing">Marketing</option>
+					<option value="Other">Other</option>
+				</select>	
+				<span id="dmsg"></span> <br/>
+
+				<p>For training select the subjects</p>
+					<input type="checkbox" name="subject" value="HTML"> HTML
+					<input type="checkbox" name="subject" value="CSS"> CSS
+					<input type="checkbox" name="subject" value="Javascript"> Javascript
+					<input type="checkbox" name="subject" value="Jquery"> Jquery
+					<input type="checkbox" name="subject" value="Angular JS"> Angular JS
+				<span id="cmsg"></span> <br/><hr/>
+							
+				<h3>Contact Information</h3>
+				<label for="Fullname"><b> Full Name *</b></label>
+				<input type="text" name="Fullname" id="fname" placeholder="smith jones" required> 
+				<span id="nmsg"></span> <br/><br/> 
+				<label for="Email"><b> Email ID *</b></label>
+				<input type="text" name="Email" id="email" placeholder="a@gmail.com" required> 
+				<span id="emsg"></span> <br/><br/> 
+				<label for="Phone"><b> Phone number *</b></label>
+				<input type="text" name="Phone" id="phone" placeholder="1212311234" required> 
+				<span id="pmsg"></span> <br/><br/> 
+				
+				<span><b>Gender</b></span>
+				<input type=radio name="gender" value="Male" required> Male
+				<input type=radio name="gender" value="Female" required> Female
+				<span id="gmsg"></span> <hr/>
+
+				<h3 style="color:darkblue"><b>Ticket Details</b></h3>
+  				<p> <i>Please describe your issue</i> </p>
+				<label for="Issue Title"><b> Issue title</b></label>
+				<input type="text" name="Issue title" id="sub" placeholder="Subject" required> 
+				<h4>Issue in detail</h4>
+				<textarea name="Issue Details" id="detail" rows="10" cols="60">
+				</textarea> <hr/>
+
+				<div id="submit">
+				<input type="submit" id="btn1" value="Submit Ticket">
+				<input type="reset" id="btn2" value="Reset">
+				<input type="reset" id="btn3" value="Cancel">
+				</div>	
+			</form>
+	</div>
+	
+	<script type="text/javascript">
+		
+		var udept = document.getElementById("dept");	
+		var ucheck = document.querySelectorAll("input[type=checkbox]");
+		var ufname = document.getElementById("fname");
+		var uemail = document.getElementById("email");
+	 	var uphone = document.getElementById("phone");
+	 	var uradio = document.getElementsByName("gender");
+	 	var usub = document.getElementById("sub");
+	 	var udetail = document.getElementById("detail")
+	 	var myBtn1 = document.getElementById("btn1");  
+	 	
+		//Method 3
+		if(window.addEventListener){ // NON - IE BROWSERS
+			ufname.addEventListener("keypress", validateName, false);
+			uphone.addEventListener("keypress", validatePhone, false);
+			usub.addEventListener("keypress", validateSubject, false);
+			myBtn1.addEventListener("click", submitForm, false);
+		}
+		else{							/// IE7, IE8 OLDER IE Versions
+			ufname.attachEvent("keypress", validateName); 
+			uphone.attachEvent("keypress", validatePhone);
+			usub.attachEvent("keypress", validateSubject);
+			myBtn1.attachEvent("click", submitForm); 
+		}
+
+		function validateName(e){ //allows only a-z while typing
+	 		var keyCode = e.charCode;
+	 			if(keyCode<97 || keyCode>122)
+					{
+						e.preventDefault();
+					}
+					else{
+						return true;
+					}
+	 	}
+
+	 	function validatePhone(e){ //allows only 0-9 while typing
+	 		var keyCode = e.charCode;
+	 			if(keyCode<48 || keyCode>57){
+						e.preventDefault();
+
+					}
+					else{
+						return true;
+					}
+	 	}
+
+	 	function validateSubject(e){ //allows only a-z while typing
+	 		var keyCode = e.charCode;
+	 			if(keyCode<97 || keyCode>122)
+					{
+						e.preventDefault();
+					}
+					else{
+						return true;
+					}
+	 	}
+	 	
+ 	  	function submitForm(e){
+ 	  		///this
+ 	  		debugger;
+ 	 		e.preventDefault(); 
+ 	 		var error = 0;
+ 	 		var msgD = document.getElementById("dmsg"); // to diplay error messages
+ 	 		var msgC = document.getElementById("cmsg");
+ 	 		var msgN = document.getElementById("nmsg");
+ 	 		var msgE = document.getElementById("emsg");
+ 	 		var msgP = document.getElementById("pmsg");
+ 	 		var msgG = document.getElementById("gmsg")
+ 	 		var msG = document.getElementById("msg");
+			var checkedValue = [];
+ 	 		var ufname = document.getElementById("fname");
+ 	 		var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
+ 	 		var letters = /^[A-Za-z]+$/;  
+			var numbers = /^[0-9a-zA-Z]+$/;  
+
+			if(udept.value == "Default"){  //dept should be selected
+				msgD.style.visibility = "visible";//if previous action made it hidden,make it visible else msg is typed but not viewed as it inherits hidden.
+				udept.focus();
+				msgD.innerHTML = "Select a depatment";
+				error1 =0; 
+			}  
+			else{  
+				msgD.style.visibility = "hidden";
+				error1 = 1;
+			} 
+
+			if(udept.value == "Technical training"){
+				if(formSubmit.subject.checked !== true){
+					msgC.style.visibility ="visible";
+					msgC.innerHTML = "Choose atleast one of the checkboxes!";
+					error2 = 0;
+				}
+				else{
+					msgC.style.visibility ="hidden";
+					error2 = 1;
+					}
+			}		
+			else{
+				msgC.style.visibility ="hidden"
+				error2 = 1;
+				}
+			
+
+			for(var i = 0; i < ucheck.length; i++){	
+				if(ucheck[i].checked){
+				var error3 = 1;	
+				checkedValue.push(ucheck[i].value);
+		   	   }
+			}
+
+
+			if(ufname.value.match(letters))  //fname should have only alphabets
+			{  
+				error4 = 1;
+			}  
+			else{  
+				alert('Username must have alphabet characters only');  
+				ufname.focus();  
+				error4 = 0;  
+			}  
+
+ 	 		if(ufname.value == "slesha"){ //fname should match string
+ 	 			msgN.style.visibility = "hidden";
+ 	 			error5 = 1;
+ 	 			//return true;
+ 	 		}
+ 	 		else{
+ 	 			msgN.style.visibility = "visible";
+ 	 			msgN.innerHTML = "Enter valid name";
+ 	 			ufname.focus();  
+ 	 			error5 = 0;
+ 	 		}
+ 
+			if(uemail.value.match(mailformat)){	//validate email
+				msgE.style.visibility = "hidden";
+				error6 = 1;	
+				//return true;  
+			}  
+			else{  
+				msgE.style.visibility = "visible";
+				msgE.innerHTML = "Enter valid Email";
+				uemail.focus();  
+				error6 = 0;
+			}
+
+			if(uphone.value.match(numbers)){  //phone number all numbers only
+				error7 = 1;  
+			}  
+			else{  
+				alert('User phone must have numbers only');  
+				uphone.focus();  
+				error7 = 0;  
+			}  
+
+ 	 		if (uphone.value.length == 10){ //length of phone number is 10
+				msgP.style.visibility = "hidden";
+				error8 = 1;
+			}
+			else{
+				msgP.style.visibility = "visible";
+				msgP.innerHTML = "Phone number should be 10 digits";
+				uphone.focus();
+				error8 = 0;
+			}
+
+			if(formSubmit.gender.checked !== true){
+					msgG.style.visibility ="visible";
+					msgG.innerHTML = "Choose atleast one of the button!";
+					error9 = 0;
+			}
+			else{
+				msgG.style.visibility ="hidden";
+				error9 = 1;
+			}
+
+			for (var i = 0; i < uradio.length; i++) { //prints on cosole selected radio button value
+				if (uradio[i].checked) {
+					var radioValue = uradio[i].value;
+					var error10 = 1; 
+				}
+			}
+
+			if(usub.value.match(letters))  //fname should have only alphabets
+			{  
+				error11 = 1;
+			}  
+			else{  
+				alert('Subject must have alphabet characters only');  
+				usub.focus();  
+				error11 = 0;  
+			}  
+
+			if(error3 == 1){
+				console.log("checked the following courses",checkedValue);
+			}
+
+			if(error10 ==1){
+				console.log("Radio button checked is",radioValue);
+			}
+
+			if(error1 && error2 && error4 && error5 && error6 && error7 && error8 && error9 && error11 == 1){ 
+				msG.style.visibility ="hidden";
+				window.location.href = "http://support.mythriconsulting.com/index.php";//all are true takes to new page		
+				return true;
+			}
+			else{
+				//msg.style.visibility ="visible";
+				msG.innerHTML = "Missing or invalid data - check the errors and try again";
+				return false;
+			}
+	 	}
+
+	</script>
+	
+</body>
+</html>
+			
